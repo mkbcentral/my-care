@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Enums\RoleEnums;
+use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,9 +17,8 @@ class RegisterController extends Controller
             'name'=>['required','string','max:255'],
             'email'=>['required','confirmed',Password::default()],
             'email'=>['required','string','email','max:255','unique:users,email'],
-            'role_id'=>['required',Rule::in(RoleEnums::ADMINISTRATOR,RoleEnums::DOCTOR)]
+            'role_id'=>['required',Rule::in(1,2,3,4)]
         ]);
-
         $user=User::create([
             'name'=>$request->name,
             'email'=>$request->email,
