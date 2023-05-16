@@ -2,24 +2,21 @@
 
 namespace Tests\Feature;
 
-use App\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class AuthTest extends TestCase
+class UserCrudTest extends TestCase
 {
-    use RefreshDatabase;
     /**
      * A basic feature test example.
      */
-    public  function  test_registration_succeeds_with_admin_role(){
-        $role=Role::create(['name'=>'Admin']);
-        $response=$this->postJson('api/v1/register',[
+    public  function test_create_new_user(){
+        $response=$this->postJson('api/v1/user',[
             'name'=>'Valid Name',
             'email'=>'validemail@test.app',
             'password'=>'password',
-            'password_confirmation'=>'password',
-            'role_id'=>$role->id
+            'role_id'=>1
         ]);
         $response->assertStatus(200)->assertJsonStructure(['access_token']);
     }

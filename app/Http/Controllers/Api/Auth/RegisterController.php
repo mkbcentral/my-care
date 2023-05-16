@@ -15,7 +15,7 @@ class RegisterController extends Controller
     {
         $request->validate([
             'name'=>['required','string','max:255'],
-            'email'=>['required','confirmed',Password::default()],
+            'password'=>['required','confirmed',Password::default()],
             'email'=>['required','string','email','max:255','unique:users,email'],
             'role_id'=>['required',Rule::in(1,2,3,4)]
         ]);
@@ -23,6 +23,7 @@ class RegisterController extends Controller
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=>bcrypt($request->password),
+            'password_confirmation'=>$request->password_confirmation,
             'role_id'=>$request->role_id
         ]);
         return response()->json([

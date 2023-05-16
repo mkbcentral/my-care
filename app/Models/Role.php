@@ -11,8 +11,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Role extends Model
 {
     use HasFactory;
-    protected $fillable = ['name'];
+    const ROLE_ADMINISTRATOR=1;
+    const ROLE_DOCTOR=2;
+    const  ROLE_NURSE=3;
+    const ROLE_RECEPTIONIST=4;
 
+
+    protected $fillable = ['name'];
     /**
      * Get all of the users for the Role
      *
@@ -30,6 +35,6 @@ class Role extends Model
      */
     public function permissions(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class,'permission_role','role_id','permission_id');
     }
 }
