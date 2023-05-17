@@ -19,7 +19,7 @@ class PermissionController extends Controller
     public function index()
     {
         $allPermissions=Permission::orderBy('name','ASC')->get();
-        return new PermissionResource($allPermissions);
+        return  PermissionResource::collection($allPermissions);
     }
 
     /**
@@ -51,7 +51,7 @@ class PermissionController extends Controller
     public function show(string $id)
     {
         $this->permission=Permission::find($id);
-        return new Permission($this->permission);
+        return new PermissionResource($this->permission);
     }
 
     /**

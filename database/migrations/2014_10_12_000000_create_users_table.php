@@ -15,11 +15,17 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('email')->unique()->nullable();
+            $table->string('phone_number')->unique()->nullable();
+            $table->string('photo')->nullable();
             $table->string('password');
+            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->foreignIdFor(Role::class)->constrained();
+            $table->foreignIdFor(\App\Models\Hospital::class)->nullable()->constrained();
+            $table->foreignIdFor(\App\Models\CenterHospital::class)->nullable()->constrained();
+            $table->foreignIdFor(\App\Models\Country::class)->nullable()->constrained();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

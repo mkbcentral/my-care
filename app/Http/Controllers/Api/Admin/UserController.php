@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -28,28 +29,33 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'=>['required','string','max:255'],
-            'password'=>['required','confirmed',Password::default()],
-            'email'=>['required','string','email','max:255','unique:users,email'],
-            'role_id'=>['required',Rule::in(1,2,3,4)]
-        ]);
-        $user=User::create([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'password'=>bcrypt($request->password),
-            'role_id'=>$request->role_id
-        ]);
-        if ($user){
-            $this->status=true;
-            $this->message='User created successfully';
-            $this->user=$user;
+        $this->authorize('user-manager');
+        try {
+            $request->validate([
+                'name'=>['required','string','max:255'],
+                //'password'=>['required',Password::default()],
+                'email'=>['required','string','email','max:255','unique:users,email'],
+                'role_id'=>['required',Rule::in(Role::ROLE_ADMINISTRATOR,Role::ROLE_DOCTOR,Role::ROLE_NURSE)]
+            ]);
+            $user=User::create([
+                'name'=>$request->name,
+                'email'=>$request->email,
+                'password'=>bcrypt('password'),
+                'role_id'=>$request->role_id
+            ]);
+            if ($user){
+                $this->status=true;
+                $this->message='User created successfully';
+                $this->user=$user;
+            }
+            return response()->json([
+                'status'=>$this->status,
+                'message'=>$this->message,
+                'user'=>$this->user
+            ]);
+        }catch (\Exception $ex){
+            return $ex->getMessage();
         }
-        return response()->json([
-            'status'=>$this->status,
-            'message'=>$this->message,
-            'user'=>$this->user
-        ]);
     }
 
     /**
@@ -57,6 +63,7 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
+        $this->authorize('user-manager');
         $this->user=User::find($id);
         return new UserResource($this->user);
     }
@@ -66,13 +73,15 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $userToEdit=$this->show($id);
+        $this->authorize('user-manager');
+        $userToEdit=User::find($id);
         $userToEdit->name=$request->name;
         $userToEdit->email=$request->email;
+        $userToEdit->phone_number=$request->phone_number;
         $userToEdit->role_id=$request->role_id;
         if($userToEdit->update()){
             $this->status=true;
-            $this->message='User update successfully';
+            $this->message='User updated successfully';
             $this->user=$userToEdit;
         }
         return response()->json([
@@ -87,10 +96,11 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
+        $this->authorize('user-manager');
         $this->user=User::find($id);
         if ($this->user->delete()){
             $this->status=true;
-            $this->message='User update successfully';
+            $this->message='User deleted successfully';
         }
         return response()->json([
             'status'=>$this->status,
