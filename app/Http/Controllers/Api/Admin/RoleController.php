@@ -5,22 +5,27 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 class RoleController extends Controller
 {
-    private  bool $status=false;
-    private string $message='';
+    private  bool $status = false;
+    private string $message = '';
     private Role $role;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $allRoles=Role::orderBy('name','ASC')->get();
-        return RoleResource::collection($allRoles);
+        try {
+            $allRoles = Role::orderBy('name', 'ASC')->get();
+            return RoleResource::collection($allRoles);
+        } catch (Exception $ex) {
+            return $ex->getMessage();
+        }
     }
 
     /**
@@ -28,22 +33,26 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'=>['required','string','max:255'],
-        ]);
-        $roleToAdd=Role::create([
-            'name'=>$request->name
-        ]);
-        if ($roleToAdd){
-            $this->status=true;
-            $this->message='Role created successfully';
-            $this->role=$roleToAdd;
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+            ]);
+            $roleToAdd = Role::create([
+                'name' => $request->name
+            ]);
+            if ($roleToAdd) {
+                $this->status = true;
+                $this->message = 'Role created successfully';
+                $this->role = $roleToAdd;
+            }
+            return response()->json([
+                'status' => $this->status,
+                'message' => $this->message,
+                'role' => $this->role
+            ]);
+        } catch (Exception $ex) {
+            return $ex->getMessage();
         }
-        return response()->json([
-            'status'=>$this->status,
-            'message'=>$this->message,
-            'role'=>$this->role
-        ]);
     }
 
     /**
@@ -51,8 +60,12 @@ class RoleController extends Controller
      */
     public function show(string $id)
     {
-        $this->role=Role::find($id);
-        return new RoleResource($this->role);
+        try {
+            $this->role = Role::find($id);
+            return new RoleResource($this->role);
+        } catch (Exception $ex) {
+            return $ex->getMessage();
+        }
     }
 
     /**
@@ -60,18 +73,22 @@ class RoleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $roleToEdit=Role::find($id);
-        $roleToEdit->name=$request->name;
-        if ($roleToEdit->update()){
-            $this->status=true;
-            $this->message='Role updated successfully';
-            $this->role=$roleToEdit;
+        try {
+            $roleToEdit = Role::find($id);
+            $roleToEdit->name = $request->name;
+            if ($roleToEdit->update()) {
+                $this->status = true;
+                $this->message = 'Role updated successfully';
+                $this->role = $roleToEdit;
+            }
+            return response()->json([
+                'status' => $this->status,
+                'message' => $this->message,
+                'role' => $this->role
+            ]);
+        } catch (Exception $ex) {
+            return $ex->getMessage();
         }
-        return response()->json([
-            'status'=>$this->status,
-            'message'=>$this->message,
-            'role'=>$this->role
-        ]);
     }
 
     /**
@@ -79,14 +96,18 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->role=Role::find($id);
-        if ($this->role->delete()){
-            $this->status=true;
-            $this->message='Role deleted successfully';
+        try {
+            $this->role = Role::find($id);
+            if ($this->role->delete()) {
+                $this->status = true;
+                $this->message = 'Role deleted successfully';
+            }
+            return response()->json([
+                'status' => $this->status,
+                'message' => $this->message,
+            ]);
+        } catch (Exception $ex) {
+            return $ex->getMessage();
         }
-        return response()->json([
-            'status'=>$this->status,
-            'message'=>$this->message,
-        ]);
     }
 }

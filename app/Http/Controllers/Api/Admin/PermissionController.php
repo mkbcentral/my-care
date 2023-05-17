@@ -6,20 +6,25 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PermissionResource;
 use App\Models\Permission;
 use App\Models\Role;
+use Exception;
 use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
-    private  bool $status=false;
-    private string $message='';
+    private  bool $status = false;
+    private string $message = '';
     private Permission $permission;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $allPermissions=Permission::orderBy('name','ASC')->get();
-        return  PermissionResource::collection($allPermissions);
+        try {
+            $allPermissions = Permission::orderBy('name', 'ASC')->get();
+            return  PermissionResource::collection($allPermissions);
+        } catch (Exception $ex) {
+            return $ex->getMessage();
+        }
     }
 
     /**
@@ -27,22 +32,26 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'=>['required','string','max:255'],
-        ]);
-        $permissionToAdd=Permission::create([
-            'name'=>$request->name
-        ]);
-        if ($permissionToAdd){
-            $this->status=true;
-            $this->message='Permission created successfully';
-            $this->permission=$permissionToAdd;
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+            ]);
+            $permissionToAdd = Permission::create([
+                'name' => $request->name
+            ]);
+            if ($permissionToAdd) {
+                $this->status = true;
+                $this->message = 'Permission created successfully';
+                $this->permission = $permissionToAdd;
+            }
+            return response()->json([
+                'status' => $this->status,
+                'message' => $this->message,
+                'role' => $this->permission
+            ]);
+        } catch (Exception $ex) {
+            return $ex->getMessage();
         }
-        return response()->json([
-            'status'=>$this->status,
-            'message'=>$this->message,
-            'role'=>$this->permission
-        ]);
     }
 
     /**
@@ -50,8 +59,12 @@ class PermissionController extends Controller
      */
     public function show(string $id)
     {
-        $this->permission=Permission::find($id);
-        return new PermissionResource($this->permission);
+        try {
+            $this->permission = Permission::find($id);
+            return new PermissionResource($this->permission);
+        } catch (Exception $ex) {
+            return $ex->getMessage();
+        }
     }
 
     /**
@@ -59,18 +72,22 @@ class PermissionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $permissionToEdit=Permission::find($id);
-        $permissionToEdit->name=$request->name;
-        if ($permissionToEdit->update()){
-            $this->status=true;
-            $this->message='Permission updated successfully';
-            $this->permission=$permissionToEdit;
+        try {
+            $permissionToEdit = Permission::find($id);
+            $permissionToEdit->name = $request->name;
+            if ($permissionToEdit->update()) {
+                $this->status = true;
+                $this->message = 'Permission updated successfully';
+                $this->permission = $permissionToEdit;
+            }
+            return response()->json([
+                'status' => $this->status,
+                'message' => $this->message,
+                'role' => $this->permission
+            ]);
+        } catch (Exception $ex) {
+            return $ex->getMessage();
         }
-        return response()->json([
-            'status'=>$this->status,
-            'message'=>$this->message,
-            'role'=>$this->permission
-        ]);
     }
 
     /**
@@ -78,15 +95,18 @@ class PermissionController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->permission=Permission::find($id);
-        if($this->permission->delete()){
-            $this->status=true;
-            $this->message='Permission deleted successfully';
+        try {
+            $this->permission = Permission::find($id);
+            if ($this->permission->delete()) {
+                $this->status = true;
+                $this->message = 'Permission deleted successfully';
+            }
+            return response()->json([
+                'status' => $this->status,
+                'message' => $this->message,
+            ]);
+        } catch (Exception $ex) {
+            return $ex->getMessage();
         }
-
-        return response()->json([
-            'status'=>$this->status,
-            'message'=>$this->message,
-        ]);
     }
 }

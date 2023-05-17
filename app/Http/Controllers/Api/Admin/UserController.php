@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\Role;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
@@ -20,8 +21,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $allUsers=User::orderBy('name','ASC')->get();
-        return UserResource::collection($allUsers);
+        try {
+            $allUsers=User::orderBy('name','ASC')->get();
+            return UserResource::collection($allUsers);
+        } catch (Exception $ex) {
+            return $ex->getMessage();
+        }
     }
 
     /**
@@ -64,8 +69,12 @@ class UserController extends Controller
     public function show(string $id)
     {
         $this->authorize('user-manager');
-        $this->user=User::find($id);
-        return new UserResource($this->user);
+        try {
+            $this->user=User::find($id);
+            return new UserResource($this->user);
+        } catch (Exception $ex) {
+            return $ex->getMessage();
+        }
     }
 
     /**
@@ -74,6 +83,7 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         $this->authorize('user-manager');
+       try {
         $userToEdit=User::find($id);
         $userToEdit->name=$request->name;
         $userToEdit->email=$request->email;
@@ -89,6 +99,9 @@ class UserController extends Controller
             'message'=>$this->message,
             'user'=>$this->user
         ]);
+       } catch (Exception $ex) {
+        return $ex->getMessage();
+    }
     }
 
     /**
@@ -96,7 +109,8 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->authorize('user-manager');
+        try {
+            $this->authorize('user-manager');
         $this->user=User::find($id);
         if ($this->user->delete()){
             $this->status=true;
@@ -106,5 +120,8 @@ class UserController extends Controller
             'status'=>$this->status,
             'message'=>$this->message,
         ]);
+        } catch (Exception $ex) {
+            return $ex->getMessage();
+        }
     }
 }
