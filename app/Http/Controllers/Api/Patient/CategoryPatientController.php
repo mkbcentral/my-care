@@ -91,19 +91,19 @@ class CategoryPatientController extends Controller
      */
     public function destroy(string $id)
     {
+        try {
+            $this->category = CategoryPatient::find($id);
+            if ($this->category->delete()) {
+                $this->status = true;
+                $this->message = 'Category deleted successfully';
+            }
+            return response()->json([
+                'status' => $this->status,
+                'message' => $this->message
+            ], 200);
+        } catch (Exception $ex) {
+            return $ex->getMessage();
+        }
+    }
+}
 
-    }
-}
-try {
-    $this->category = CategoryPatient::find($id);
-    if ($this->category->delete()) {
-        $this->status = true;
-        $this->message = 'Category deleted successfully';
-    }
-    return response()->json([
-        'status' => $this->status,
-        'message' => $this->message
-    ], 200);
-} catch (Exception $ex) {
-    return $ex->getMessage();
-}

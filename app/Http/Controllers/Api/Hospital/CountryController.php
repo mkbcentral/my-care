@@ -38,7 +38,7 @@ class CountryController extends Controller
             ]);
             $countryToAdd = Country::create([
                 'name' => $request->name,
-                'country_code' => $request->name
+                'country_code' => $request->country_code
             ]);
             if ($countryToAdd) {
                 $this->status = true;

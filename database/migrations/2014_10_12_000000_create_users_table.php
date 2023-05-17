@@ -22,10 +22,6 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->foreignIdFor(Role::class)->constrained();
-            $table->foreignIdFor(\App\Models\Hospital::class)->nullable()->constrained();
-            $table->foreignIdFor(\App\Models\CenterHospital::class)->nullable()->constrained();
-            $table->foreignIdFor(\App\Models\Country::class)->nullable()->constrained();
-            $table->softDeletes();
             $table->timestamps();
         });
     }

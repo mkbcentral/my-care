@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\RegisterController;
+use App\Http\Controllers\Api\Hospital\ConpanyController;
+use App\Http\Controllers\Api\Patient\CategoryPatientController;
+use App\Http\Controllers\Api\Patient\PatientController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,4 +29,7 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::resource('hospital',\App\Http\Controllers\Api\Hospital\HospitalController::class);
     Route::resource('center-hospital',\App\Http\Controllers\Api\Hospital\CenterHospitalController::class);
     Route::resource('country',\App\Http\Controllers\Api\Hospital\CountryController::class);
+    Route::resource('category-patient',CategoryPatientController::class);
+    Route::resource('company',ConpanyController::class);
+    Route::resource('patient',PatientController::class);
 });

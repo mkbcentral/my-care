@@ -19,6 +19,9 @@ class Patient extends Model
         'address_city',
         'address_city',
         'company_id',
+        'country_id',
+        'hospital_id',
+        'center_hospital_id',
         'user_id',
     ];
 }

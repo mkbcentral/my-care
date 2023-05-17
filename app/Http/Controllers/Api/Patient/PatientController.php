@@ -32,20 +32,22 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $request->validate([
-                'id_code' => ['required', 'max:255'],
-                'birth_date' => ['required', 'date'],
-                'social_security_number' => ['nullable', 'max:255'],
-                'emergency_contact_name' => ['nullable', 'max:255'],
-                'emergency_contact_phone_number' => ['nullable', 'max:255'],
-                'blood_group' => ['nullable', 'max:255'],
-                'address_street' => ['nullable', 'max:255'],
-                'address_city' => ['nullable', 'max:255'],
-                'company_id' => ['nullable', 'numeric'],
-                'user_id' => ['required', 'numeric'],
-            ]);
+        $request->validate([
+            'birth_date' => ['required', 'date'],
+            'social_security_number' => ['nullable', 'max:255'],
+            'emergency_contact_name' => ['nullable', 'max:255'],
+            'emergency_contact_phone_number' => ['nullable', 'max:255'],
+            'blood_group' => ['nullable', 'max:255'],
+            'address_street' => ['nullable', 'max:255'],
+            'address_city' => ['nullable', 'max:255'],
+            'company_id' => ['nullable', 'numeric'],
+            'country_id' => ['nullable', 'numeric'],
+            'hospital_id' => ['nullable', 'numeric'],
+            'center_hospital' => ['nullable', 'numeric'],
+            'user_id' => ['required', 'numeric'],
+        ]);
 
+        try {
             $patientToAdd = Patient::create([
                 'id_code' => rand(100, 1000),
                 'birth_date' => $request->birth_date,
@@ -56,12 +58,15 @@ class PatientController extends Controller
                 'address_street' => $request->address_street,
                 'address_city' => $request->address_city,
                 'company_id' => $request->company_id,
+                'hospital_id' => $request->hospital_id,
+                'center_hospital_id' => $request->center_hospital_id,
+                'country_id' => $request->country_id,
                 'user_id' => auth()->user()->id,
             ]);
             if ($patientToAdd) {
                 $this->status = true;
                 $this->message = 'Data submit successffuly';
-                $this->status = $patientToAdd;
+                $this->patient = $patientToAdd;
             }
             return response()->json([
                 'status' => $this->status,
@@ -101,6 +106,9 @@ class PatientController extends Controller
             $patientToEdit->blood_group = $request->blood_group;
             $patientToEdit->address_street = $request->address_street;
             $patientToEdit->address_city = $request->address_city;
+            $patientToEdit->country_id = $request->country_id;
+            $patientToEdit->hospital_id = $request->hospital_id;
+            $patientToEdit->center_hospital_id = $request->center_hospital_id;
             $patientToEdit->company_id = $request->company_id;
             if ($patientToEdit->update()) {
                 $this->status = true;

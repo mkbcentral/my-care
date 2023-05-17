@@ -23,8 +23,11 @@ return new class extends Migration
             $table->string('blood_group')->nullable();
             $table->string('address_street')->nullable();
             $table->string('address_city')->nullable();
+            $table->foreignIdFor(\App\Models\Hospital::class)->nullable()->constrained();
+            $table->foreignIdFor(\App\Models\CenterHospital::class)->nullable()->constrained();
             $table->foreignIdFor(\App\Models\Company::class)->nullable()->constrained();
             $table->foreignIdFor(\App\Models\CategoryPatient::class)->nullable()->constrained();
+            $table->foreignIdFor(\App\Models\Country::class)->nullable()->constrained();
             $table->timestamps();
         });
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -13,13 +14,13 @@ class RegisterController extends Controller
 {
     public function __invoke(Request $request)
     {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'confirmed', Password::default()],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'role_id' => ['required', Rule::in(Role::ROLE_ADMINISTRATOR, Role::ROLE_DOCTOR, Role::ROLE_NURSE,Role::ROLE_RECEPTIONIST)]
+        ]);
         try {
-            $request->validate([
-                'name' => ['required', 'string', 'max:255'],
-                'password' => ['required', 'confirmed', Password::default()],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-                'role_id' => ['required', Rule::in(1, 2, 3, 4)]
-            ]);
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -31,7 +32,10 @@ class RegisterController extends Controller
                 'access_token' => $user->createToken('client')->plainTextToken,
             ]);
         } catch (Exception $ex) {
-            return $ex->getMessage();
+            return response()->json([
+                'error' => $ex->getMessage(),
+                'status'=>false
+            ]);
         }
     }
 }
