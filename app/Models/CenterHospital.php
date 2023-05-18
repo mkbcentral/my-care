@@ -16,7 +16,6 @@ class CenterHospital extends Model
         'number_street',
         'long',
         'lat',
-        'country_id',
         'hospital_id'
     ];
 }

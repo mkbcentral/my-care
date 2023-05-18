@@ -26,7 +26,6 @@ class PatientController extends Controller
             return $ex->getMessage();
         }
     }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -34,6 +33,7 @@ class PatientController extends Controller
     {
         $request->validate([
             'birth_date' => ['required', 'date'],
+            'gender' => ['required', 'max:1'],
             'social_security_number' => ['nullable', 'max:255'],
             'emergency_contact_name' => ['nullable', 'max:255'],
             'emergency_contact_phone_number' => ['nullable', 'max:255'],
@@ -42,8 +42,6 @@ class PatientController extends Controller
             'address_city' => ['nullable', 'max:255'],
             'company_id' => ['nullable', 'numeric'],
             'country_id' => ['nullable', 'numeric'],
-            'hospital_id' => ['nullable', 'numeric'],
-            'center_hospital' => ['nullable', 'numeric'],
             'user_id' => ['required', 'numeric'],
         ]);
 
@@ -51,6 +49,7 @@ class PatientController extends Controller
             $patientToAdd = Patient::create([
                 'id_code' => rand(100, 1000),
                 'birth_date' => $request->birth_date,
+                'gender' => $request->gender,
                 'social_security_number' => $request->social_security_number,
                 'emergency_contact_name' => $request->emergency_contact_name,
                 'emergency_contact_phone_number' => $request->emergency_contact_phone_number,
@@ -58,8 +57,6 @@ class PatientController extends Controller
                 'address_street' => $request->address_street,
                 'address_city' => $request->address_city,
                 'company_id' => $request->company_id,
-                'hospital_id' => $request->hospital_id,
-                'center_hospital_id' => $request->center_hospital_id,
                 'country_id' => $request->country_id,
                 'user_id' => auth()->user()->id,
             ]);
@@ -71,7 +68,7 @@ class PatientController extends Controller
             return response()->json([
                 'status' => $this->status,
                 'message' => $this->message,
-                'patient' => $this->patient,
+                'id_code' => $this->patient->id_code,
             ]);
         } catch (Exception $ex) {
             return $ex->getMessage();
@@ -124,7 +121,6 @@ class PatientController extends Controller
             return $ex->getMessage();
         }
     }
-
     /**
      * Remove the specified resource from storage.
      */
