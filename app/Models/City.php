@@ -6,26 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Hospital extends Model
+class City extends Model
 {
     use HasFactory;
-    protected $fillable=[
-        'name',
-        'abbreviation',
-        'logo',
-        'email',
-        'phone',
-        'city',
-        'street',
-        'number_street',
-        'long',
-        'lat',
-        'country_id'
-    ];
 
+    protected $fillable=['name','country_id'];
 
     /**
-     * Get the country that owns the Hospital
+     * Get the country that owns the City
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

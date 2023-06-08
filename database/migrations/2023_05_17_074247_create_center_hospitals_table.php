@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('center_hospitals', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Models\Hospital::class)->constrained();
+            $table->foreignIdFor(\App\Models\City::class)->constrained();
             $table->string('name',255);
             $table->string('center_phone',255)->nullable();
-            $table->string('city',255)->nullable();
+            $table->string('municipality',255)->nullable();
             $table->string('street',255)->nullable();
             $table->string('number_street',255)->nullable();
             $table->decimal('long',)->default(0);

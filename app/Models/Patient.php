@@ -26,6 +26,7 @@ class Patient extends Model
         'hospital_id',
         'center_hospital_id',
         'user_id',
+        'city_id'
     ];
     /**
      * Get the country that owns the Patient
@@ -35,6 +36,15 @@ class Patient extends Model
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'country_id');
+    }
+    /**
+     * Get the city that owns the Patient
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class, 'city_id');
     }
     /**
      * Get the user that owns the Patient

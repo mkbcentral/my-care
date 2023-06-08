@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\HospitalResource\Pages;
-use App\Filament\Resources\HospitalResource\RelationManagers;
-use App\Models\Hospital;
+use App\Filament\Resources\CityResource\Pages;
+use App\Filament\Resources\CityResource\RelationManagers;
+use App\Models\City;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,13 +13,12 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class HospitalResource extends Resource
+class CityResource extends Resource
 {
-    protected static ?string $model = Hospital::class;
+    protected static ?string $model = City::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-home';
-
-    protected static ?string $navigationGroup = 'Hospital';
+    protected static ?string $navigationIcon = 'heroicon-o-map';
+    protected static ?string $navigationGroup = 'Localization';
 
     public static function form(Form $form): Form
     {
@@ -30,10 +29,6 @@ class HospitalResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('name')
                     ->required(),
-                Forms\Components\TextInput::make('abbreviation'),
-                Forms\Components\FileUpload::make('logo'),
-                Forms\Components\TextInput::make('email')
-                    ->email(),
             ]);
     }
 
@@ -41,36 +36,25 @@ class HospitalResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('logo')->circular(),
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('abbreviation'),
-                Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\TextColumn::make('country.name'),
+                Tables\Columns\TextColumn::make('name'),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListHospitals::route('/'),
-            'create' => Pages\CreateHospital::route('/create'),
-            'edit' => Pages\EditHospital::route('/{record}/edit'),
+            'index' => Pages\ManageCities::route('/'),
         ];
     }
 }

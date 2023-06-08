@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\City;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,9 +22,11 @@ return new class extends Migration
             $table->string('emergency_contact_name')->nullable();
             $table->string('emergency_contact_phone_number')->nullable();
             $table->string('blood_group')->nullable();
+            $table->string('municipality')->nullable();
             $table->string('address_street')->nullable();
             $table->string('address_city')->nullable();
-            $table->foreignIdFor(\App\Models\Country::class)->nullable()->constrained();
+            $table->foreignIdFor(\App\Models\Country::class)->constrained();
+            $table->foreignIdFor(City::class)->constrained();
             $table->softDeletes();
             $table->timestamps();
         });
