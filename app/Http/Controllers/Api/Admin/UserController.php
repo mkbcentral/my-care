@@ -86,16 +86,11 @@ class UserController extends Controller
             $userToEdit->name = $request->name;
             $userToEdit->email = $request->email;
             $userToEdit->phone_number = $request->phone_number;
-            $userToEdit->role_id = $request->role_id;
-            if ($userToEdit->update()) {
-                $this->status = true;
-                $this->message = 'User updated successfully';
-                $this->user = $userToEdit;
-            }
+            $userToEdit->update();
             return response()->json([
-                'status' => $this->status,
-                'message' => $this->message,
-                'user' => $this->user
+                'status' => true,
+                'message' => 'User updated !',
+
             ]);
         } catch (Exception $ex) {
             return $ex->getMessage();

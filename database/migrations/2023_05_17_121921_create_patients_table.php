@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\User::class)->constrained();
             $table->date('id_code')->nullable();
-            $table->date('birth_date')->nullable();
+            $table->date('date_of_birth')->nullable();
             $table->string('gender')->nullable();
             $table->string('social_security_number')->nullable();
             $table->string('emergency_contact_name')->nullable();

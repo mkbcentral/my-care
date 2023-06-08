@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -29,6 +30,7 @@ class Logincontroller extends Controller
             }
             return response()->json([
                 'access_token' => $user->createToken('client')->plainTextToken,
+                'user'=>new UserResource($user)
             ]);
         } catch (Exception $ex) {
             return response()->json([

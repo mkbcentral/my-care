@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Patient;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PatientResource;
+use App\Models\ConsultationSheet;
 use App\Models\Patient;
 use Exception;
 use finfo;
@@ -32,7 +33,7 @@ class PatientController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'birth_date' => ['required', 'date'],
+            'date_of_birth' => ['required', 'date'],
             'gender' => ['required', 'max:1'],
             'social_security_number' => ['nullable', 'max:255'],
             'emergency_contact_name' => ['nullable', 'max:255'],
@@ -41,13 +42,12 @@ class PatientController extends Controller
             'address_street' => ['nullable', 'max:255'],
             'address_city' => ['nullable', 'max:255'],
             'country_id' => ['nullable', 'numeric'],
-            'user_id' => ['required', 'numeric'],
         ]);
 
         try {
             $patientToAdd = Patient::create([
                 'id_code' => rand(100, 1000),
-                'birth_date' => $request->birth_date,
+                'date_of_birth' => $request->date_of_birth,
                 'gender' => $request->gender,
                 'social_security_number' => $request->social_security_number,
                 'emergency_contact_name' => $request->emergency_contact_name,
@@ -94,7 +94,7 @@ class PatientController extends Controller
 
         try {
             $patientToEdit = Patient::find($id);
-            $patientToEdit->birth_date = $request->birth_date;
+            $patientToEdit->date_of_birth = $request->date_of_birth;
             $patientToEdit->social_security_number = $request->social_security_number;
             $patientToEdit->emergency_contact_name = $request->emergency_contact_name;
             $patientToEdit->emergency_contact_phone_number = $request->emergency_contact_phone_number;

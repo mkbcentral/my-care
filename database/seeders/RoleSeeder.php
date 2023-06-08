@@ -17,7 +17,8 @@ class RoleSeeder extends Seeder
             ['name'=>'ADMINISTRATOR'],
             ['name'=>'DOCTOR'],
             ['name'=>'NURSE'],
-            ['name'=>'RECEPTIONIST']
+            ['name'=>'RECEPTIONIST'],
+            ['name'=>'PATIENT']
         ];
         Role::insert($data);
     }

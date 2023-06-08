@@ -20,6 +20,7 @@ class HospitalResource extends JsonResource
             'abbreviation'=>$this->abbreviation,
             'email'=>$this->email,
             'phone'=>$this->phone,
+            'aderesse'=>$this->city.',C/'.$this->city.',N°'.$this->number_street.',AV/'.$this->street,
             'city'=>$this->city,
             'number_street'=>$this->number_street,
             'street'=>$this->street,
