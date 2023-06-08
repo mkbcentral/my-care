@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('number_street',255)->nullable();
             $table->decimal('long',)->default(0);
             $table->decimal('lat',)->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

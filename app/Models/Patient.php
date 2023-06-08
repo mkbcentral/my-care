@@ -37,24 +37,6 @@ class Patient extends Model
         return $this->belongsTo(Country::class, 'country_id');
     }
     /**
-     * Get the company that owns the Patient
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function company(): BelongsTo
-    {
-        return $this->belongsTo(company::class, 'company_id');
-    }
-    /**
-     * Get the category that owns the Patient
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(category::class, 'category_patient_id');
-    }
-    /**
      * Get the user that owns the Patient
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

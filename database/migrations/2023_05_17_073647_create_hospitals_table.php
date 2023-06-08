@@ -18,12 +18,7 @@ return new class extends Migration
             $table->string('abbreviation',255)->nullable();
             $table->string('logo',255)->nullable();
             $table->string('email',255)->nullable();
-            $table->string('phone',255)->nullable();
-            $table->string('city',255)->nullable();
-            $table->string('street',255)->nullable();
-            $table->string('number_street',255)->nullable();
-            $table->decimal('long',)->default(0);
-            $table->decimal('lat',)->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

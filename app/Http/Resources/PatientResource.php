@@ -25,7 +25,6 @@ class PatientResource extends JsonResource
             'address_street'=>$this->address_street,
             'address_city'=>$this->address_city,
             'user'=>new UserResource($this->user),
-            'company'=>new CompanyResource($this->company),
             'country'=>new CountryResource($this->country)
 
         ];

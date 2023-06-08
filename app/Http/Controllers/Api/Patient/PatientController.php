@@ -40,7 +40,6 @@ class PatientController extends Controller
             'blood_group' => ['nullable', 'max:255'],
             'address_street' => ['nullable', 'max:255'],
             'address_city' => ['nullable', 'max:255'],
-            'company_id' => ['nullable', 'numeric'],
             'country_id' => ['nullable', 'numeric'],
             'user_id' => ['required', 'numeric'],
         ]);
@@ -56,7 +55,6 @@ class PatientController extends Controller
                 'blood_group' => $request->blood_group,
                 'address_street' => $request->address_street,
                 'address_city' => $request->address_city,
-                'company_id' => $request->company_id,
                 'country_id' => $request->country_id,
                 'user_id' => auth()->user()->id,
             ]);
@@ -106,7 +104,6 @@ class PatientController extends Controller
             $patientToEdit->country_id = $request->country_id;
             $patientToEdit->hospital_id = $request->hospital_id;
             $patientToEdit->center_hospital_id = $request->center_hospital_id;
-            $patientToEdit->company_id = $request->company_id;
             if ($patientToEdit->update()) {
                 $this->status = true;
                 $this->message = 'Data submit successffuly';
