@@ -26,7 +26,6 @@ class PatientResource extends JsonResource
             'address_city'=>$this->address_city,
             'user'=>new UserResource($this->user),
             'country'=>new CountryResource($this->country)
-
         ];
     }
 }

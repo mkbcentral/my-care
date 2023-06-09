@@ -35,8 +35,10 @@ class CountryResource extends Resource
     {
         return $table
             ->columns([
+
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('country_code'),
+                Tables\Columns\TextColumn::make('flag')
             ])
             ->filters([
                 //

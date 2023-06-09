@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class HospitalResource extends JsonResource
+class CityResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +16,7 @@ class HospitalResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'name'=>$this->name,
-            'abbreviation'=>$this->abbreviation,
-            'email'=>$this->email,
-            'logo'=>config('app.url').'/storage/'. $this->logo,
-            'country'=>$this->country->flag.' '.$this->country->name
+            'name'=>$this->name
         ];
     }
 }
