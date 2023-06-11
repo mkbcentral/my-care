@@ -24,9 +24,9 @@ return new class extends Migration
             $table->string('blood_group')->nullable();
             $table->string('municipality')->nullable();
             $table->string('address_street')->nullable();
-            $table->string('address_city')->nullable();
+            $table->string('address_street_number')->nullable();
             $table->foreignIdFor(\App\Models\Country::class)->constrained();
-            $table->foreignIdFor(City::class)->constrained();
+            $table->foreignIdFor(City::class)->nullable()->constrained();
             $table->softDeletes();
             $table->timestamps();
         });

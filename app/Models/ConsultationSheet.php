@@ -14,7 +14,6 @@ class ConsultationSheet extends Model
         'sheet_number',
         'patient_id',
         'center_hospital_id',
-        'user_id',
         'active'
     ];
 
@@ -33,18 +32,8 @@ class ConsultationSheet extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function center(): BelongsTo
+    public function centerHospital(): BelongsTo
     {
         return $this->belongsTo(CenterHospital::class, 'center_hospital_id');
-    }
-
-    /**
-     * Get the user that owns the ConsultationSheet
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'user_id');
     }
 }

@@ -21,7 +21,6 @@ return new class extends Migration
             $table->boolean('active')->default(false);
             $table->foreignIdFor(Patient::class)->constrained();
             $table->foreignIdFor(CenterHospital::class)->constrained();
-            $table->foreignIdFor(User::class)->constrained();
             $table->softDeletes();
             $table->timestamps();
         });

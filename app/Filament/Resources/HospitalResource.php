@@ -6,6 +6,8 @@ use App\Filament\Resources\HospitalResource\Pages;
 use App\Filament\Resources\HospitalResource\RelationManagers;
 use App\Models\Hospital;
 use Filament\Forms;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Grid;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -25,16 +27,27 @@ class HospitalResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('country_id')
-                    ->relationship('country', 'name')
-                    ->required(),
-                Forms\Components\TextInput::make('name')
-                    ->required(),
-                Forms\Components\TextInput::make('abbreviation'),
-                Forms\Components\FileUpload::make('logo'),
-                Forms\Components\TextInput::make('email')
-                    ->email(),
-            ]);
+                Card::make()->schema([
+                    Grid::make(2)->schema([
+                        Forms\Components\Select::make('country_id')
+                            ->relationship('country', 'name')
+                            ->required(),
+                        Forms\Components\TextInput::make('name')
+                            ->required(),
+                    ]),
+                    Grid::make(2)->schema([
+                        Forms\Components\TextInput::make('abbreviation'),
+                        Forms\Components\TextInput::make('email')
+                            ->email(),
+                    ]),
+
+                    Forms\Components\Toggle::make('is_active'),
+
+                ])->columnSpan(8),
+                Card::make()->schema([
+                    Forms\Components\FileUpload::make('logo')
+                ])->columnSpan(4)
+            ])->columns(12);
     }
 
     public static function table(Table $table): Table
@@ -46,6 +59,7 @@ class HospitalResource extends Resource
                 Tables\Columns\TextColumn::make('abbreviation'),
                 Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\TextColumn::make('country.name'),
+                Tables\Columns\ToggleColumn::make('is_active'),
             ])
             ->filters([
                 //

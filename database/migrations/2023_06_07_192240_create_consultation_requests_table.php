@@ -19,7 +19,6 @@ return new class extends Migration
         Schema::create('consultation_requests', function (Blueprint $table) {
             $table->id();
             $table->string('number_request')->nullable();
-            $table->foreignIdFor(CenterHospital::class)->constrained();
             $table->foreignIdFor(ConsultationSheet::class)->constrained();
             $table->foreignIdFor(Consultation::class)->constrained();
             $table->enum('status',['IN_PROCESS','VALIDED','REJECTED'])->default('IN_PROCESS');

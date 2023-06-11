@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('abbreviation',255)->nullable();
             $table->string('logo',255)->nullable();
             $table->string('email',255)->nullable();
+            $table->boolean('is_active')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

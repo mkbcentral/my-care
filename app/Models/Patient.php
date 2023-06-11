@@ -5,27 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use PHPUnit\Framework\Constraint\Count;
 
 class Patient extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     protected $fillable=[
         'id_code',
-        'birth_date',
+        'date_of_birth',
         'gender',
         'social_security_number',
         'emergency_contact_name',
         'emergency_contact_phone_number',
         'blood_group',
+        'municipality',
         'address_street',
-        'address_city',
-        'address_city',
-        'company_id',
-        'country_id',
-        'hospital_id',
-        'center_hospital_id',
+        'address_street_number',
         'user_id',
+        'country_id',
         'city_id'
     ];
     /**

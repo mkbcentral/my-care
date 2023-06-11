@@ -22,8 +22,10 @@ class PatientResource extends JsonResource
             'emergency_contact_name'=>$this->emergency_contact_name,
             'emergency_contact_phone_number'=>$this->emergency_contact_phone_number,
             'blood_group'=>$this->blood_group,
+            'municipality'=>$this->municipality,
             'address_street'=>$this->address_street,
-            'address_city'=>$this->address_city,
+            'address_street_number'=>$this->address_street,
+            'city'=>new CityResource($this->city),
             'user'=>new UserResource($this->user),
             'country'=>new CountryResource($this->country)
         ];
