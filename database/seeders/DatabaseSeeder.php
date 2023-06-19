@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,9 +22,13 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         //$this->call(RoleSeeder::class);
-        //$this->call(AdminUserSeeder::class);
-        //$this->call(PerimissionSeeder::class);
-        $this->call(ConsultationSeeder::class);
+       $this->call(AdminUserSeeder::class);
+       // $this->call(PerimissionSeeder::class);
+       // $this->call(ConsultationSeeder::class);
+
+        //$user=User::find(1);
+        //$user->password=bcrypt('password');
+        //$user->update();
 
     }
 }

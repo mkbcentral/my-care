@@ -41,6 +41,7 @@ class PatientController extends Controller
             'blood_group' => ['nullable', 'max:255'],
             'address_street' => ['nullable', 'max:255'],
             'municipality' => ['nullable', 'max:255'],
+            'district' => ['nullable', 'max:255'],
             'country_id' => ['nullable', 'numeric'],
             'city_id' => ['nullable', 'numeric'],
         ]);
@@ -55,6 +56,7 @@ class PatientController extends Controller
                 'emergency_contact_phone_number' => $request->emergency_contact_phone_number,
                 'blood_group' => $request->blood_group,
                 'municipality' => $request->municipality,
+                'district' => $request->district,
                 'address_street' => $request->address_street,
                 'address_street_number' => $request->address_street_number,
                 'country_id' => $request->country_id,
@@ -70,16 +72,14 @@ class PatientController extends Controller
                 ConsultationRequest::create([
                     'number_request'=>rand(1000,10000),
                     'consultation_id'=>1,
-                    's'=>$sheet->id
+                    'consultation_sheet_id'=>$sheet->id
                 ]);
                 $this->status = true;
                 $this->message = 'Data submit successffuly';
-                $this->patient = $patientToAdd;
             }
             return response()->json([
                 'status' => $this->status,
                 'message' => $this->message,
-                'patient' => $this->patient,
             ]);
         } catch (Exception $ex) {
             return response()->json([

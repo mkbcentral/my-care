@@ -15,9 +15,9 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name'=>'Administrator',
-            'email'=>'administrator@test.app',
-            'phone_number'=>'971330007',
+            'name'=>'MWILA KILOBEKE Ben',
+            'email'=>'mkbcentral@gmail.com',
+            'phone_number'=>'898337969',
             'password'=>bcrypt('password'),
             'role_id'=>RoleEnum::ADMINISTRATOR
         ]);

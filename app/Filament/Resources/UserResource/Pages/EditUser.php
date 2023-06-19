@@ -13,7 +13,10 @@ class EditUser extends EditRecord
     protected function getActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()->mutateFormDataUsing(function(array $data):array{
+                //$data['password']=bcrypt('password');
+                return $data;
+            }),
         ];
     }
 }
