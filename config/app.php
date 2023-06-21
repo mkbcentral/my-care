@@ -57,7 +57,7 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    'asset_url' =>config('app.env')=='local'? env('ASSET_URL'):'https://my-care.mkbcentral.com/public/storage',
+    'asset_url' =>config('app.env')=='local'? env('ASSET_URL'):'https://my-care.mkbcentral.com/public/',
 
     /*
     |--------------------------------------------------------------------------
