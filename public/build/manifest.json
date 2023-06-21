@@ -60,7 +60,7 @@
     "src": "node_modules/admin-lte/plugins/fontawesome-free/webfonts/fa-solid-900.woff2"
   },
   "resources/css/app.css": {
-    "file": "assets/app-ad2113c7.css",
+    "file": "assets/app-4ffcce75.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
