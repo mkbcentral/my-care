@@ -15,11 +15,11 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name'=>'MWILA KILOBEKE Ben',
-            'email'=>'mkbcentral@gmail.com',
-            'phone_number'=>'898337969',
-            'password'=>bcrypt('password'),
-            'role_id'=>RoleEnum::ADMINISTRATOR
+            'name' => 'MWILA KILOBEKE Ben',
+            'email' => 'mkbcentral@gmail.com',
+            'phone_number' => '898337969',
+            'password' => bcrypt('password'),
+            'role_id' => RoleEnum::ADMINISTRATOR
         ]);
     }
 }

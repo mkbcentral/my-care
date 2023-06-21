@@ -1,0 +1,27 @@
+.btn-color-primay{
+    background: #036049;
+    color: #FFFF;
+    width: 100%;
+}
+.bg-color-secondary{
+    background: hsl(167, 55%, 10%);
+    color: #FFFF;
+}
+.btn-color-primay:hover{
+    background-color: #142924;
+    color: #FFFF;
+}
+
+.bg-sidebar{
+    background: #036049;
+}
+.bg-sidebar a,li{
+    color: white;
+}
+.text-lb-primary{
+    color: #036049;
+}
+.text-lb-primary-400{
+    color: #263d37;
+}
+
