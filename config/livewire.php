@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'asset_url' => null,
+    'asset_url' => config('app.env')=='local'?null:'https://my-care.mkbcentral.com/public/',
 
     /*
     |--------------------------------------------------------------------------
@@ -68,7 +68,7 @@ return [
     |
     */
 
-    'app_url' => null,
+    'app_url' => config('app.env')=='local'?null:'https://my-care.mkbcentral.com',
 
     /*
     |--------------------------------------------------------------------------
