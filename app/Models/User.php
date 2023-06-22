@@ -13,7 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
 
@@ -67,10 +67,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(User::class);
     }
-    /*
+
     public function canAccessFilament(): bool
     {
-        return str_ends_with($this->email, '@yourdomain.com') && $this->hasVerifiedEmail();
+        return str_ends_with($this->email, '@my-care.mkbcentral.com');
     }
-    */
+
 }
