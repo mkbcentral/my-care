@@ -25,7 +25,7 @@ return [
     |
     */
 
-    'path' => env('FILAMENT_PATH', 'https://my-care.mkbcentral.com/admin'),
+    'path' => env('FILAMENT_PATH', 'super-admin'),
 
     /*
     |--------------------------------------------------------------------------
@@ -49,7 +49,7 @@ return [
     |
     */
 
-    'domain' => 'https://my-care.mkbcentral.com/',
+    'domain' => env('FILAMENT_DOMAIN'),
 
     /*
     |--------------------------------------------------------------------------
@@ -61,7 +61,7 @@ return [
     |
     */
 
-    'home_url' => 'https://my-care.mkbcentral.com/admin',
+    'home_url' => '/super-admin',
 
     /*
     |--------------------------------------------------------------------------
