@@ -39,7 +39,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => config('app.env') == 'local' ? "env('APP_URL')" . '/storage' : "'url' => 'https://my-care.mkbcentral.com/public/storage',",
+            'url' => config('app.env') == 'local' ? config('app.url'). '/storage' : "'url' => 'https://my-care.mkbcentral.com/public/storage',",
             'visibility' => 'public',
             'throw' => false,
         ],
