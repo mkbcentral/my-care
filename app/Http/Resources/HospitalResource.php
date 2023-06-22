@@ -19,7 +19,7 @@ class HospitalResource extends JsonResource
             'name'=>$this->name,
             'abbreviation'=>$this->abbreviation,
             'email'=>$this->email,
-            'logo'=>config('app.url').'/storage/'. $this->logo,
+            'logo'=>config('app.url').'/public/storage/'. $this->logo,
             'country'=>$this->country->flag.' '.$this->country->name
         ];
     }
