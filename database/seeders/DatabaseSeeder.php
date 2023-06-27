@@ -20,11 +20,12 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-
-        //$this->call(RoleSeeder::class);
-       $this->call(AdminUserSeeder::class);
-       // $this->call(PerimissionSeeder::class);
-       // $this->call(ConsultationSeeder::class);
+        /*
+        $this->call(RoleSeeder::class);
+        $this->call(AdminUserSeeder::class);
+        $this->call(PerimissionSeeder::class);
+        */
+        //$this->call(ConsultationSeeder::class);
 
         //$user=User::find(1);
         //$user->password=bcrypt('password');

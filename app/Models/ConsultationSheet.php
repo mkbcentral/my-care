@@ -14,7 +14,10 @@ class ConsultationSheet extends Model
         'sheet_number',
         'patient_id',
         'center_hospital_id',
-        'active'
+        'active',
+        'company_id',
+        'service_id',
+        'sheet_type_patient_id'
     ];
 
     /**
@@ -36,4 +39,25 @@ class ConsultationSheet extends Model
     {
         return $this->belongsTo(CenterHospital::class, 'center_hospital_id');
     }
+
+    /**
+     * Get the compnay that owns the ConsultationSheet
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function compnay(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'company_id');
+    }
+
+    /**
+     * Get the service that owns the ConsultationSheet
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function service(): BelongsTo
+    {
+        return $this->belongsTo(Service::class, 'service_id');
+    }
+
 }

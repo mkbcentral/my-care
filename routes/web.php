@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\GuestController;
 use App\Http\Livewire\Dashboard\MainDashboard;
+use App\Http\Livewire\Patient\ListPatient;
+use App\Http\Livewire\Patient\NewPatient;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +21,7 @@ Route::middleware('auth')->group(function(){
 */
 Route::middleware('auth')->group(function(){
     Route::get('/',MainDashboard::class)->name('app.dashboard-main');
+    Route::get('/list-patients',ListPatient::class)->name('patient.list');
 });
 
 

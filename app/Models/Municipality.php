@@ -6,19 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class SheetTypePatient extends Model
+class Municipality extends Model
 {
     use HasFactory;
 
-    protected $fillable=['name','hospital_id'];
+    protected $fillable=['name','city_id'];
 
     /**
-     * Get the hospital that owns the SheetTypePatient
+     * Get the city that owns the Municipality
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function hospital(): BelongsTo
+    public function city(): BelongsTo
     {
-        return $this->belongsTo(Hospital::class, 'hospital_id');
+        return $this->belongsTo(City::class, 'city_id');
     }
 }

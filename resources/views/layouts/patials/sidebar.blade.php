@@ -8,14 +8,13 @@
              <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                  data-accordion="false">
                  <x-navs.side-nav-link class="nav-link text-white" href="{{ route('app.dashboard-main') }}" :active="request()->routeIs('app.dashboard-main')">
-                    &#x1F4C8;
+                    📈
                     <p>Dashboard</p>
                 </x-nav-link>
-                <x-navs.side-nav-link class="nav-link" href="{{ route('app.dashboard-main') }}" :active="request()->routeIs('app.dashboard-main')">
-                    &#x1F4C8;
-                    <p>Dashboard</p>
+                <x-navs.side-nav-link class="nav-link" href="{{ route('patient.list') }}" :active="request()->routeIs('patient.list')">
+                    🧆
+                    <p>New patient</p>
                 </x-nav-link>
-
              </ul>
          </nav>
 

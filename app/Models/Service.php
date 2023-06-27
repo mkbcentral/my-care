@@ -6,19 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class SheetTypePatient extends Model
+class Service extends Model
 {
     use HasFactory;
 
-    protected $fillable=['name','hospital_id'];
+    protected $fillable=['name','sheet_type_patient_id'];
 
     /**
-     * Get the hospital that owns the SheetTypePatient
+     * Get the SheetTypePatient that owns the Company
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function hospital(): BelongsTo
+    public function sheetTypePatient(): BelongsTo
     {
-        return $this->belongsTo(Hospital::class, 'hospital_id');
+        return $this->belongsTo(SheetTypePatient::class, 'sheet_type_patient_id');
     }
 }

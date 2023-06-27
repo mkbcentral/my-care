@@ -3,6 +3,7 @@
 use App\Models\CenterHospital;
 use App\Models\Hospital;
 use App\Models\Patient;
+use App\Models\SheetTypePatient;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->boolean('active')->default(false);
             $table->foreignIdFor(Patient::class)->constrained();
             $table->foreignIdFor(CenterHospital::class)->constrained();
+            $table->foreignIdFor(SheetTypePatient::class)->constrained();
             $table->softDeletes();
             $table->timestamps();
         });
