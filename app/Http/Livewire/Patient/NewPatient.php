@@ -114,7 +114,7 @@ class NewPatient extends Component
         $patient=(new PatientCreateHelper())->create($data);
         $sheet=(new PatientCreateHelper())->createConsultationSheet($data,$patient->id);
         (new PatientCreateHelper())->createConsultationRequest($data['consultation_id'],$sheet->id);
-        dd('saved');
+        $this->dispatchBrowserEvent('added',['message'=>"Infos bien ajoutées !"]);
     }
 
 

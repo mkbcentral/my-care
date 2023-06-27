@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Helpers\Others\DateFormatHelper;
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -64,6 +66,10 @@ class Patient extends Model
     public function consultationSheet(): HasOne
     {
         return $this->hasOne(ConsultationSheet::class);
+    }
+
+    public function getAge(){
+        return (new DateFormatHelper())->getUserAge((new DateTime($this->date_of_birth))->format('d/m/Y'));
     }
 
 }

@@ -20,7 +20,7 @@ use Livewire\Component;
 
 class EditPatient extends Component
 {
-    public $patient,$patientData;
+    public $patient, $patientData;
     public  $full_name, $date_of_birth, $gender, $social_security_number, $emergency_contact_name,
         $emergency_contact_phone_number, $blood_group_id, $district, $address_street, $address_street_number,
         $municipality_id;
@@ -53,7 +53,7 @@ class EditPatient extends Component
         $request = new UpdatePatientRequest();
         $data = $this->validate($request->rules());
         $patient = (new PatientCreateHelper())->update($this->patientData->id, $data);
-        dd('Update');
+        $this->dispatchBrowserEvent('updated', ['message' => "Infos bien mise ç jour !"]);
     }
 
 
@@ -61,19 +61,19 @@ class EditPatient extends Component
     {
 
         $this->patientData = $patient;
-        $patient->user == null ? $this->full_name = $patient->full_name : $this->full_name = $patient->user->name;
-        $this->date_of_birth = $patient->date_of_birth;
-        $this->gender = $patient->gender;
-        $this->social_security_number = $patient?->social_security_number;
-        $this->emergency_contact_phone_number = $patient->emergency_contact_phone_number;
-        $this->emergency_contact_name = $patient->emergency_contact_name;
-        $this->blood_group_id = $patient->blood_group_id;
-        $this->municipality_id = $patient->municipality_id;
-        $this->district = $patient->district;
-        $this->address_street = $patient->address_street;
-        $this->address_street_number = $patient->address_street_number;
-        $this->city_id = $patient->city_id;
-        $this->country_id = $patient->country_id;
+        $patient->user == null ? $this->full_name = $this->patientData->full_name : $this->full_name = $this->patientData->user->name;
+        $this->date_of_birth = $this->patientData->date_of_birth;
+        $this->gender = $this->patientData->gender;
+        $this->social_security_number = $this->patientData?->social_security_number;
+        $this->emergency_contact_phone_number = $this->patientData->emergency_contact_phone_number;
+        $this->emergency_contact_name = $this->patientData->emergency_contact_name;
+        $this->blood_group_id = $this->patientData->blood_group_id;
+        $this->municipality_id = $this->patientData->municipality_id;
+        $this->district = $this->patientData->district;
+        $this->address_street = $this->patientData->address_street;
+        $this->address_street_number = $this->patientData->address_street_number;
+        $this->city_id = $this->patientData->city_id;
+        $this->country_id = $this->patientData->country_id;
 
         $this->listCountries = Country::all();
         $this->listBloodGroups = BloodGroup::all();
@@ -83,6 +83,9 @@ class EditPatient extends Component
     }
     public function render()
     {
+        $this->patientData = $this->patient;
+        $this->city_id = $this->patientData->city_id;
+        $this->country_id = $this->patientData->country_id;
         return view('livewire.patient.edit-patient');
     }
 }

@@ -13,7 +13,7 @@
                 </x-nav-link>
                 <x-navs.side-nav-link class="nav-link" href="{{ route('patient.list') }}" :active="request()->routeIs('patient.list')">
                     🧆
-                    <p>New patient</p>
+                    <p>LIste de patient</p>
                 </x-nav-link>
              </ul>
          </nav>

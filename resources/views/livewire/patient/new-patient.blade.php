@@ -50,8 +50,8 @@
                                     <x-form.label class="text-success" value="{{ __('Date de naissance') }}" />
                                     <div
                                         class="input-group @error('date_of_birth') is-invalid border border-danger rounded @enderror">
-                                        <x-form.input type="date" placeholder="Date de naissance"
-                                            wire:model.defer='date_of_birth' />
+                                        <x-form.date-picker
+                                            wire:model.defer='date_of_birth' id="dateOfBirth"/>
                                     </div>
                                 </div>
                             </div>

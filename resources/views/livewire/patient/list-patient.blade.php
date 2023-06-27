@@ -33,7 +33,7 @@
                             <tr class="text-uppercase">
                                 <th>N° Fiche</th>
                                 <th>Nom patient</th>
-                                <th>Genre</th>
+                                <th  class="text-center">Genre</th>
                                 <th class="text-center">Age</th>
                                 <th class="text-center">Groupe sanguin</th>
                                 <th class="text-center">Actions</th>
@@ -44,7 +44,7 @@
                                 <tr>
                                     <td>{{ $sheet->sheet_number }}</td>
                                     <td>{{ $sheet->patient->full_name }}</td>
-                                    <td class="text-center">{{ $sheet->patient->gender }}</td>
+                                    <td class="text-center">{{ $sheet->patient->getAge() }}</td>
                                     <td class="text-center">{{ $sheet->patient->gender }}</td>
                                     <td class="text-center">{{ $sheet->patient->gender }}</td>
                                     <td class="text-center">

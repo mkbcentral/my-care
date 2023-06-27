@@ -27,7 +27,7 @@ class ListPatient extends Component
     public function show(Patient $patient){
         $this->patient=null;
         $this->patient=$patient;
-    }
+        }
 
     public function render()
     {
