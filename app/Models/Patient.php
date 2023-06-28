@@ -30,6 +30,11 @@ class Patient extends Model
         'country_id',
         'city_id',
     ];
+
+    protected $casts = [
+        'date_of_birth' => 'date:Y-m-d',
+    ];
+
     /**
      * Get the country that owns the Patient
      *
@@ -66,6 +71,16 @@ class Patient extends Model
     public function consultationSheet(): HasOne
     {
         return $this->hasOne(ConsultationSheet::class);
+    }
+
+    /**
+     * Get the bloodGroup that owns the Patient
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function bloodGroup(): BelongsTo
+    {
+        return $this->belongsTo(BloodGroup::class, 'blood_group_id');
     }
 
     public function getAge(){

@@ -29,6 +29,8 @@ class SheetTypePatientResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('name')
                     ->required(),
+                Forms\Components\TextInput::make('slug')
+                    ->required(),
             ]);
     }
 
@@ -36,8 +38,8 @@ class SheetTypePatientResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('hospital.name'),
                 Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('slug'),
             ])
             ->filters([
                 //

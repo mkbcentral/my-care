@@ -32,7 +32,7 @@
         @enderror
         <div class="row mt-4">
             <div class="col-12">
-                <x-form.button type="submit" class="btn-color-primay d-flex justify-content-center align-items-center">
+                <x-form.button type="submit" class="btn-color-primay w-100 d-flex justify-content-center align-items-center">
                     <div wire:loading wire:target='loginUser' class="spinner-border spinner-border-sm text-white"
                         role="status"></div>
                     <span class="pl-2">Se connecter</span>

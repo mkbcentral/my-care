@@ -47,11 +47,10 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <x-form.label class="text-success" value="{{ __('Date de naissance') }}" />
+                                    <x-form.label for="dateOfBirth" class="text-success" value="{{ __('Date de naissance') }}" />
                                     <div
                                         class="input-group @error('date_of_birth') is-invalid border border-danger rounded @enderror">
-                                        <x-form.date-picker
-                                            wire:model.defer='date_of_birth' id="dateOfBirth"/>
+                                        <x-form.date-picker wire:model.defer='date_of_birth' id="dateOfBirth"/>
                                     </div>
                                 </div>
                             </div>
@@ -214,21 +213,6 @@
                                             <option value="">Choisir...</option>
                                             @foreach ($listConsultations as $consultation)
                                                 <option value="{{ $consultation->id }}">{{ $consultation->name }}
-                                                </option>
-                                            @endforeach
-                                        </x-form.select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <x-form.label class="text-success" value="{{ __('Type patient') }}" />
-                                    <span class="text-danger"> (Privé,Abonné,...)</span>
-                                    <div
-                                        class="input-group @error('sheet_type_patient_id') is-invalid border border-danger rounded @enderror">
-                                        <x-form.select wire:model='sheet_type_patient_id'>
-                                            @foreach ($listSheetTypePatient as $sheetType)
-                                                <option selected value="{{ $sheetType->id }}">{{ $sheetType->name }}
                                                 </option>
                                             @endforeach
                                         </x-form.select>

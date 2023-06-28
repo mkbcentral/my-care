@@ -38,7 +38,6 @@ class PatientRequest extends FormRequest
             'company_id'=>['nullable','numeric'],
             'service_id'=>['nullable','numeric'],
             'consultation_id'=>['required','numeric'],
-            'sheet_type_patient_id'=>['nullable','numeric'],
         ];
     }
 }

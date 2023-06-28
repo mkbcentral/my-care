@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ConsultationSheet extends Model
 {
-    use HasFactory,SoftDeletes;
-    protected $fillable=[
+    use HasFactory, SoftDeletes;
+    protected $fillable = [
         'sheet_number',
         'patient_id',
         'center_hospital_id',
@@ -45,7 +45,7 @@ class ConsultationSheet extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function compnay(): BelongsTo
+    public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class, 'company_id');
     }
@@ -59,5 +59,26 @@ class ConsultationSheet extends Model
     {
         return $this->belongsTo(Service::class, 'service_id');
     }
+    /**
+     * Get the sheetTypePatient that owns the ConsultationSheet
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function sheetTypePatient(): BelongsTo
+    {
+        return $this->belongsTo(SheetTypePatient::class, 'sheet_type_patient_id');
+    }
 
+    public function getTypeSheet(): string
+    {
+        $type = '';
+        if ($this->sheetTypePatient->slug == 'pv') {
+            $type = $this->sheetTypePatient->name;
+        } elseif ($this->sheetTypePatient->slug == 'abn') {
+            $type = $this->sheetTypePatient->name . '/' . $this->company->name;
+        } elseif ($this->sheetTypePatient->slug == 'prsnl') {
+            $type = $this->sheetTypePatient->name . '/' . $this->service->name;
+        }
+        return $type;
+    }
 }

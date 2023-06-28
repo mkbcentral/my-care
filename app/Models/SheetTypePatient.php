@@ -10,8 +10,7 @@ class SheetTypePatient extends Model
 {
     use HasFactory;
 
-    protected $fillable=['name','hospital_id'];
-
+    protected $fillable=['name','slug','hospital_id'];
     /**
      * Get the hospital that owns the SheetTypePatient
      *

@@ -1,4 +1,4 @@
-<div wire:ignore.self>
+<div>
     <form wire:submit.prevent='handlerSubmit'>
         <div class="row ">
             <div class="col-md-3">

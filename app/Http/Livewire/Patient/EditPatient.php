@@ -15,12 +15,12 @@ use App\Models\Municipality;
 use App\Models\Patient;
 use App\Models\Service;
 use App\Models\SheetTypePatient;
-use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
 class EditPatient extends Component
 {
-    public $patient, $patientData;
+    protected $listeners = ['selectedPatient'=>'getSelectedPatient'];
+    public $patientData;
     public  $full_name, $date_of_birth, $gender, $social_security_number, $emergency_contact_name,
         $emergency_contact_phone_number, $blood_group_id, $district, $address_street, $address_street_number,
         $municipality_id;
@@ -48,6 +48,10 @@ class EditPatient extends Component
         $this->listMunicipalities = Municipality::where('city_id', $id == null ? $this->country_id : $id)->get();
     }
 
+    public function getSelectedPatient(Patient $patient){
+        $this->patientData=$patient;
+    }
+
     public function handlerSubmit()
     {
         $request = new UpdatePatientRequest();
@@ -56,36 +60,33 @@ class EditPatient extends Component
         $this->dispatchBrowserEvent('updated', ['message' => "Infos bien mise ç jour !"]);
     }
 
-
-    public function mount(Patient $patient)
+    public function mount()
     {
-
-        $this->patientData = $patient;
-        $patient->user == null ? $this->full_name = $this->patientData->full_name : $this->full_name = $this->patientData->user->name;
-        $this->date_of_birth = $this->patientData->date_of_birth;
-        $this->gender = $this->patientData->gender;
-        $this->social_security_number = $this->patientData?->social_security_number;
-        $this->emergency_contact_phone_number = $this->patientData->emergency_contact_phone_number;
-        $this->emergency_contact_name = $this->patientData->emergency_contact_name;
-        $this->blood_group_id = $this->patientData->blood_group_id;
-        $this->municipality_id = $this->patientData->municipality_id;
-        $this->district = $this->patientData->district;
-        $this->address_street = $this->patientData->address_street;
-        $this->address_street_number = $this->patientData->address_street_number;
-        $this->city_id = $this->patientData->city_id;
-        $this->country_id = $this->patientData->country_id;
-
         $this->listCountries = Country::all();
         $this->listBloodGroups = BloodGroup::all();
         $this->listGenders = Gender::all();
         $this->listCities = City::where('country_id', $this->country_id)->get();
         $this->listMunicipalities = Municipality::where('city_id', $this->city_id)->get();
+
     }
     public function render()
     {
-        $this->patientData = $this->patient;
-        $this->city_id = $this->patientData->city_id;
-        $this->country_id = $this->patientData->country_id;
+        $this->city_id = $this->patientData?->city_id;
+        $this->country_id = $this->patientData?->country_id;
+        $this->patientData?->user == null ? $this->full_name = $this->patientData?->full_name : $this->full_name = $this->patientData?->user?->name;
+        $this->date_of_birth = $this->patientData?->date_of_birth;
+        $this->gender = $this->patientData?->gender;
+        $this->social_security_number = $this->patientData?->social_security_number;
+        $this->emergency_contact_phone_number = $this->patientData?->emergency_contact_phone_number;
+        $this->emergency_contact_name = $this->patientData?->emergency_contact_name;
+        $this->blood_group_id = $this->patientData?->blood_group_id;
+        $this->municipality_id = $this->patientData?->municipality_id;
+        $this->district = $this->patientData?->district;
+        $this->address_street = $this->patientData?->address_street;
+        $this->address_street_number = $this->patientData?->address_street_number;
+        $this->city_id = $this->patientData?->city_id;
+        $this->country_id = $this->patientData?->country_id;
+
         return view('livewire.patient.edit-patient');
     }
 }

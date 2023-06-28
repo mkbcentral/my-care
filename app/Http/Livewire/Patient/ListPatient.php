@@ -9,31 +9,39 @@ use Livewire\Component;
 
 class ListPatient extends Component
 {
-    public  $listSheetTypePatient=[];
-    public $selectedIndex=0;
-    public $typeLabel='Privé';
-    public  $patient =null;
+    protected $listeners = ['refreshListPatients' => '$refresh'];
+    public $keyToSearch = '';
+    public  $listSheetTypePatient = [];
+    public $selectedIndex = 0;
+    public $typeLabel = 'pv';
+    public  $patient = null;
 
-    public function mount(){
-        $currentSheetTypePatient=SheetTypePatient::where('name',$this->typeLabel)->first();
-        $this->selectedIndex=$currentSheetTypePatient->id;
-        $this->listSheetTypePatient=SheetTypePatient::all();
+    public function mount()
+    {
+        $currentSheetTypePatient = SheetTypePatient::where('slug', $this->typeLabel)->first();
+        $this->selectedIndex = $currentSheetTypePatient->id;
+        $this->listSheetTypePatient = SheetTypePatient::all();
     }
-    public function changeIndex(SheetTypePatient $type){
-        $this->selectedIndex=$type->id;
-        $this->patient=null;
+    public function changeIndex(SheetTypePatient $type)
+    {
+        $this->selectedIndex = $type->id;
+        $this->patient = null;
+        $this->emit('getStatusPatient', $type);
+        $this->keyToSearch='';
     }
-
-    public function show(Patient $patient){
-        $this->patient=null;
-        $this->patient=$patient;
-        }
-
+    public function show(Patient $patient)
+    {
+        $this->patient = $patient;
+        $this->emit('selectedPatient', $patient);
+    }
     public function render()
     {
-        $listSheets=ConsultationSheet::where('sheet_type_patient_id',$this->selectedIndex)->get();
-        return view('livewire.patient.list-patient',['listSheets'=>$listSheets]);
+        $listSheets = ConsultationSheet::where('consultation_sheets.sheet_type_patient_id', $this->selectedIndex)
+            ->with(['patient', 'sheetTypePatient', 'patient.bloodGroup', 'service', 'company'])
+            ->join('patients', 'consultation_sheets.patient_id', '=', 'patients.id')
+            ->select('consultation_sheets.*')
+            ->where('patients.full_name', 'like', '%' . $this->keyToSearch . '%')
+            ->get();
+        return view('livewire.patient.list-patient', ['listSheets' => $listSheets]);
     }
-
-
 }

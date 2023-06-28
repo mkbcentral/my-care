@@ -12,7 +12,7 @@
                     <p>Dashboard</p>
                 </x-nav-link>
                 <x-navs.side-nav-link class="nav-link" href="{{ route('patient.list') }}" :active="request()->routeIs('patient.list')">
-                    🧆
+                    <i class="fas fa-users"></i>
                     <p>LIste de patient</p>
                 </x-nav-link>
              </ul>

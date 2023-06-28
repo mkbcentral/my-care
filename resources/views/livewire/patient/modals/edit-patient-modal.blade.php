@@ -8,9 +8,10 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <div class="modal-body text-left">
                 @if ($patient != null)
-                    @livewire('patient.edit-patient', ['patient' => $patient])
+                    @livewire('patient.edit-patient')
                 @endif
 
             </div>

@@ -6,10 +6,12 @@ window.$(document).ready(function () {
     };
     window.addEventListener('added', function (event) {
         toastr.success(event.detail.message, 'Validation');
+        $('#showCreatePatienModal').modal('hide');
 
     });
     window.addEventListener('updated', function (event) {
         toastr.info(event.detail.message, 'Validation');
+        $('#showCreatePatienModal').modal('hide');
 
     });
     window.addEventListener('deleted', function (event) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Patient;
 
+use App\Helpers\Others\DateFormatHelper;
 use App\Helpers\Patient\PatientCreateHelper;
 use App\Http\Requests\PatientRequest;
 use App\Models\BloodGroup;
@@ -20,18 +21,27 @@ use Livewire\Component;
 
 class NewPatient extends Component
 {
+
+    protected $listeners = ['getStatusPatient' => 'getStatus'];
     public Patient $patientData;
     public  $full_name, $date_of_birth, $gender, $social_security_number, $emergency_contact_name,
         $emergency_contact_phone_number, $blood_group_id, $district, $address_street, $address_street_number,
-         $municipality_id,$consultation_id,
-        $sheet_type_patient_id, $service_id, $company_id,$consulmtation_id;
+        $municipality_id, $consultation_id,
+        $sheet_type_patient_id, $service_id, $company_id, $consulmtation_id;
+    public  $selectedindex = 0;
 
     public  $country_id, $city_id;
     public string $idPatientToSearch;
     public $listCountries = [], $listCities = [], $listMunicipalities = [],
-        $listSheetTypePatient = [], $listServices = [], $listCompanies = [],$dataInputs,
-        $listConsultations = [],$listGenders=[],$listBloodGroups=[];
-    public bool $isCompany = false, $isService = false;
+        $listSheetTypePatient = [], $listServices = [], $listCompanies = [], $dataInputs,
+        $listConsultations = [], $listGenders = [], $listBloodGroups = [];
+    public bool $isCompany = false, $isService = false, $isPrivate;
+    public $typeSheet;
+
+    public function getStatus(SheetTypePatient $type)
+    {
+        $this->typeSheet = $type;
+    }
 
     public function updatedCountryId($val)
     {
@@ -42,27 +52,6 @@ class NewPatient extends Component
     {
         $this->loadMunicipalitiesByCityId($val);
     }
-
-    public function updatedsheetTypePatientId($val)
-    {
-        if ($this->getServicesByTypePatientId($val)->isEmpty() && $this->getCompaniesByTypePatientId($val)->isEmpty()) {
-            $this->isService = false;
-            $this->isCompany = false;
-            $this->company_id=null;
-            $this->service_id=null;
-        } elseif (!$this->getServicesByTypePatientId($val)->isEmpty()) {
-            $this->getServicesByTypePatientId($val);
-            $this->isService = true;
-            $this->isCompany = false;
-            $this->company_id=null;
-        } elseif (!$this->getCompaniesByTypePatientId($val)->isEmpty()) {
-            $this->getCompaniesByTypePatientId($val);
-            $this->isService = false;
-            $this->isCompany = true;
-            $this->service_id=null;
-        }
-    }
-
     public function getServicesByTypePatientId($id): Collection
     {
         return $this->listServices = Service::where('sheet_type_patient_id', $id)->get();
@@ -79,7 +68,7 @@ class NewPatient extends Component
         $patient = Patient::where('id_code', $this->idPatientToSearch)->first();
         if ($patient) {
             $this->patientData = $patient;
-            $patient->user==null?$this->full_name = $patient->full_name:$this->full_name = $patient->user->name;
+            $patient->user == null ? $this->full_name = $patient->full_name : $this->full_name = $patient->user->name;
             $this->date_of_birth = $patient->date_of_birth;
             $this->gender = $patient->gender;
             $this->social_security_number = $patient?->social_security_number;
@@ -92,10 +81,10 @@ class NewPatient extends Component
             $this->address_street_number = $patient->address_street_number;
             $this->city_id = $patient->city_id;
             $this->country_id = $patient->country_id;
-            $this->patientData=$patient;
+            $this->patientData = $patient;
             # code...289
         } else {
-            dd('Veuillez completer à la mains !');
+            $this->dispatchBrowserEvent('deleted', ['message' => "Vous n'avez pas d'ID!"]);
         }
     }
     public function loadCitiesByCountry($id)
@@ -108,31 +97,77 @@ class NewPatient extends Component
         $this->listMunicipalities = Municipality::where('city_id', $id)->get();
     }
 
-    public function handlerSubmit(){
-        $request=new PatientRequest();
-        $data=$this->validate($request->rules());
-        $patient=(new PatientCreateHelper())->create($data);
-        $sheet=(new PatientCreateHelper())->createConsultationSheet($data,$patient->id);
-        (new PatientCreateHelper())->createConsultationRequest($data['consultation_id'],$sheet->id);
-        $this->dispatchBrowserEvent('added',['message'=>"Infos bien ajoutées !"]);
+    public function handlerSubmit()
+    {
+        $request = new PatientRequest();
+        $data = $this->validate($request->rules());
+        $data['date_of_birth'] = (new DateFormatHelper())->formatDate($this->date_of_birth);
+        $data['sheet_type_patient_id'] = $this->sheet_type_patient_id;
+        $patient = (new PatientCreateHelper())->create($data);
+        $sheet = (new PatientCreateHelper())->createConsultationSheet($data, $patient->id);
+        (new PatientCreateHelper())->createConsultationRequest($data['consultation_id'], $sheet->id);
+        $this->dispatchBrowserEvent('added', ['message' => "Infos bien ajoutées !"]);
+        $this->emit('refreshListPatients');
     }
-
-
-
-
 
     public function mount()
     {
         $this->listCountries = Country::all();
         $this->listSheetTypePatient = SheetTypePatient::all();
-        $this->listConsultations=Consultation::all();
-        $this->listBloodGroups=BloodGroup::all();
-        $this->listGenders=Gender::all();
+        $this->listConsultations = Consultation::all();
+        $this->listBloodGroups = BloodGroup::all();
+        $this->listGenders = Gender::all();
+        $this->emit('getStatusPatient');
     }
 
-
+    public function getCurrentTypeSheet()
+    {
+        if ($this->typeSheet == null) {
+            $myType = SheetTypePatient::find(1);
+            if ($myType->slug == 'pv') {
+                $this->sheet_type_patient_id = $myType->id;
+                $this->isService = false;
+                $this->isCompany = false;
+                $this->company_id = null;
+                $this->service_id = null;
+            } elseif ($myType->slug == 'abn') {
+                $this->sheet_type_patient_id = $myType->id;
+                $this->getCompaniesByTypePatientId($myType->id);
+                $this->isService = false;
+                $this->isCompany = true;
+                $this->service_id = null;
+            } elseif ($myType->slug == 'prsnl') {
+                $this->sheet_type_patient_id = $myType->id;
+                $this->getServicesByTypePatientId($myType->id);
+                $this->isService = true;
+                $this->isCompany = false;
+                $this->company_id = null;;
+            }
+        } else {
+            if ($this->typeSheet->name == 'pv') {
+                $this->sheet_type_patient_id = $this->typeSheet->id;
+                $this->isService = false;
+                $this->isCompany = false;
+                $this->company_id = null;
+                $this->service_id = null;
+            } elseif ($this->typeSheet->name == 'abn') {
+                $this->sheet_type_patient_id = $this->typeSheet->id;
+                $this->getCompaniesByTypePatientId($this->typeSheet->id);
+                $this->isService = false;
+                $this->isCompany = true;
+                $this->service_id = null;
+            } elseif ($this->typeSheet->name == 'prsnl') {
+                $this->sheet_type_patient_id = $this->typeSheet->id;
+                $this->getServicesByTypePatientId($this->typeSheet->id);
+                $this->isService = true;
+                $this->isCompany = false;
+                $this->company_id = null;
+            }
+        }
+    }
     public function render()
     {
+        $this->getCurrentTypeSheet();
         return view('livewire.patient.new-patient');
     }
 }
